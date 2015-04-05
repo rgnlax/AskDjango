@@ -3,9 +3,10 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'ask_pedchenko.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+    url(r'^$', views.index),
+    url(r'^question', views.question),
+    url(r'^login', views.login),
+    url(r'^register', views.register),
+    url(r'^ask', views.ask),
 
-    url(r'^$', views.hello),
 )

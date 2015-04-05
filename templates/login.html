@@ -1,0 +1,21 @@
+{%extends "base.html"%}
+{%block title%}Sign in{%endblock%}
+{%block content%}
+<div class="header top-offset bottom-offset">Log In</div>
+<form class="form wide">
+  <div class="form-group">
+    <label class="sr-only" for="inputLogin">Login</label>
+    <input type="email" class="form-control input-form" id="inputLogin" placeholder="Enter your login here">
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="inputPassword">Password</label>
+    <input type="password" class="form-control input-form" id="inputPassword" placeholder="Password">
+  </div>
+  <!--<div class="checkbox">
+    <label>
+      <input type="checkbox"> Remember me
+    </label>
+  </div>-->
+  <button type="submit" class="btn style-btn wide-btn">Sign in</button>
+</form>
+{%endblock%}

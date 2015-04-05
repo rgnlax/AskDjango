@@ -1,24 +1,37 @@
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from django.http import Http404
 
-@csrf_exempt
-def hello(request):
-    data = '<html>\n<body>'
-    data += '<h1>Hello word</h1>'
-    data += '<h2>Parameters</h2>'
+def index(request):
+	#try:
+	response = render(request, 'index.html')
+	#except Exception, e:
+	#	raise Http404
+	return response
 
-    data += '\n<ul>'
+def question(request):
+	#try:
+	response = render(request, 'question.html')
+	#except Exception, e:
+	#	raise Http404
+	return response
 
-    #if method get
-    if request.method == 'GET':
-        parameters = request.GET.dict() 
-    #if method  post
-    elif request.method == 'POST':
-        parameters = request.POST.dict()
-    #apending parameters
-    for key in parameters.keys():
-        data += '\n\t<li>' + key + ' : ' + parameters[key] + '</li>'
+def login(request):
+	#try:
+	response = render(request, 'login.html')
+	#except Exception, e:
+	#	raise Http404
+	return response
 
-    data += '\n</ul>'
-    data += '\n</body>\n<html>'
-    return HttpResponse(data)
+def register(request):
+	#try:
+	response = render(request, 'register.html')
+	#except Exception, e:
+	#	raise Http404
+	return response
+
+def ask(request):
+	#try:
+	response = render(request, 'ask.html')
+	#except Exception, e:
+	#	raise Http404
+	return response

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>{%block title%}{%endblock%}</title>
+	<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../static/css/custom_style.css"/>
+	<link rel="stylesheet" type="text/css" href="../static/css/bootstrap-tagsinput.css"/>
+	<script src="../static/js/jquery.min.js"></script>
+	<script src="../static/js/bootstrap-tagsinput.min.js"></script>
+	<script type="text/javascript" src="../static/js/bootstrap.js" ></script>
+</head>
+	<body>
+		<nav class="navbar navbar-inverse">
+	    	<div class="col-xs-2">
+				<div class="logo">
+					<a href="/">
+						<img src="../static/img/logo.png">
+					</a>
+				</div>
+		    </div>
+		    <div class="col-xs-6">
+				<form class="navbar-search-form" role="search">
+				    <div class="input-group">
+			          	<input type="text" class="form-control" placeholder="Question" id="search-field" style="border-radius: 0px;">
+			          	<span class="input-group-btn">
+						     	<button type="submit" class="btn btn-success-nav" style="border-radius: 0px;">Find</button>
+						</span>
+				    </div>
+				</form>			    
+			</div>
+		     <div class="col-xs-4">
+		     	<!--
+				<img src="http://lorempixel.com/50/50/" class="img-circle-nav">
+				<span class="account-label">Alex Udalav</span>
+				<span>
+					<button type="button" class="btn account-btn">
+  						<span class="glyphicon glyphicon-log-out"></span> Log out</button>
+				</span>
+				<span>	
+					<button type="button" class="btn account-btn">
+  						<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+						<span>Settings</span>
+					</button>
+				</span>
+				-->
+				<span>
+					<a href="login">
+						<button type="button" class="btn account-btn">
+  							<span> Log in</span>
+  						</button>
+  					</a>
+				</span>
+				<span>	
+					<a href="register">
+						<button type="button" class="btn account-btn">
+							<span>Register</span>
+						</button>
+					</a>
+				</span>
+		    </div>
+			</nav>
+		<div class="container" id="page_container">
+				<div class="col-xs-2">
+				</div>
+				<div class="col-xs-6">
+					{%block content%}
+					{%endblock%}
+			    </div>
+			    <div class="col-xs-4">
+				 	<div class="popular-tags-container">
+						<div class="tags-header">Popular tags</div>
+						<div class="tags-body">
+							<a href="#" class="tag">Udalav</a>
+							<a href="#" class="tag">Petuh</a>
+							<a href="#" class="tag">Technopark</a>
+							<a href="#" class="tag">Voloshin</a>
+							<a href="#" class="tag">WINDOWZ</a>
+							<a href="#" class="tag">CSS</a>
+							<a href="#" class="tag">BMW</a>
+							<a href="#" class="tag">Большаков крут</a>
+							<a href="#" class="tag">Белодедов</a>
+							<a href="#" class="tag">Turin lalka</a>
+							<a href="#" class="tag">mazdie</a>
+						</div>
+					</div>
+					<div class="popular-members-container">
+						<div class="members-header">Best members</div>
+						<div class="members-body">
+							<div class="list-group">
+							  <a href="#" class="list-group-item">Bender</a>
+							  <a href="#" class="list-group-item">Voloshin</a>
+							  <a href="#" class="list-group-item">Morbi</a>
+							  <a href="#" class="list-group-item">Porta ac</a>
+							  <a href="#" class="list-group-item">Vestibulums</a>
+							</div>
+						</div>
+					</div>
+			    </div>
+		</div>
+		<footer>
+			<div class="col-xs-4"></div>
+			<div class="col-xs-4">
+				<div class="footer-text">Ask.Pedchenko ©2015</div>
+			</div>
+			<div class="col-xs-4"></div>
+		</footer>
+	</body>
+</html>

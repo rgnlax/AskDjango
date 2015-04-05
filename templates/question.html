@@ -1,0 +1,60 @@
+{%extends "base.html"%}
+{%block title%}Ask{%endblock%}
+{%block content%}
+<div class="question-container">
+	<div class="col-xs-2 qst-left">
+		<img src="http://lorempixel.com/100/100" class="img-circle-qst-full">
+		<button type="submit" class="btn rating-btn">
+			<img src="../static/img/up.png" class="rating-img">
+		</button>
+		<div class="rating-label">100</div>
+		<button type="submit" class="btn rating-btn">
+			<img src="../static/img/down.png" class="rating-img">
+		</button>
+	</div>
+	<div class="col-xs-10 qst-right-full" style="min-height: 216px;">
+		<div class="row">
+			<div class="question-header-full">How to build a Moon Park?</div>
+			<div class="question-title-container-full">
+				<div class="title-text">Guys, I have a problem with building Moon Park. Really can't find black-jack. Anybody knows?Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum nisl id gravida semper. Vivamus quis efficitur eros, at porta ligula. Donec quis orci nec justo sodales aliquet. Maecenas eu semper neque. Integer eros odio, aliquam eget egestas non, accumsan id justo. Fusce nunc tortor, semper et cursus non, pellentesque sed orci. Fusce et ipsum risus. Vivamus tortor nunc, lacinia in neque eget, pharetra placerat risus.</div>		
+			</div>
+			<div class="question-tags-container">
+				<a href="#" class="tag">Udalav</a>
+				<a href="#" class="tag">Petuh</a>
+				<a href="#" class="tag">Technopark</a>
+				<a href="#" class="tag">Voloshin</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="header">Answers</div>
+{%for i in "qwe"%}
+<div class="question-container">
+	<div class="col-xs-1 qst-left">
+		<img class="img-circle-qst" src="http://lorempixel.com/100/100"></img>
+		<button type="submit" class="btn rating-btn">
+			<img src="../static/img/up.png" class="rating-img">
+		</button>
+		<div class="rating-label">100</div>
+		<button type="submit" class="btn rating-btn">
+			<img src="../static/img/down.png" class="rating-img">
+		</button>
+	</div>
+	<div class="col-xs-11 qst-right">
+		<div class="row">
+			<div class="answer-title-container">
+				<div class="title-text">Guys, I have a problem with building Moon Park. Really can't find black-jack. Anybody knows?Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum nisl id gravida semper. Vivamus quis efficitur eros, at porta ligula. Donec quis orci nec justo sodales aliquet. Maecenas eu semper neque. Integer eros odio, aliquam eget egestas non, accumsan id justo. Fusce nunc tortor, semper et cursus non, pellentesque sed orci. Fusce et ipsum risus. Vivamus tortor nunc, lacinia in neque eget, pharetra placerat risus.</div>		
+			</div>
+		</div>
+	</div>
+</div>
+{%endfor%}
+<form class="form wide">
+	<div class="form-group">
+		<textarea type="text" class="form-control input-form" rows="5" placeholder="Enter your answer here..."></textarea>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn style-btn">Answer</button>
+	</div>
+</form>
+{%endblock%}

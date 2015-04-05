@@ -1,0 +1,55 @@
+{%extends "base.html"%}
+{%block title%}Ask{%endblock%}
+{%block content%}
+{%for i in "qwes"%}
+<div class="question-container">
+	<div class="col-xs-1 qst-left">
+		<img class="img-circle-qst" src="http://lorempixel.com/100/100"></img>
+		<button type="submit" class="btn rating-btn">
+			<img src="../static/img/up.png" class="rating-img">
+		</button>
+		<div class="rating-label">100</div>
+		<button type="submit" class="btn rating-btn">
+			<img src="../static/img/down.png" class="rating-img">
+		</button>
+	</div>
+	<div class="col-xs-11 qst-right">
+		<div class="row" style="min-height:181px;">
+			<a href="question" class="header">How to build a Moon Park?</a>
+			<div class="question-title-container">
+				<div class="title-text">Guys, I have a problem with building a Moon Park. Really can't find a black-jack. Does anybody knows? Really can't find a black-jack. Does anybody knows? Really can't find a black-jack. Does anybody knows?</div>
+			</div>
+			<div class="question-inner-container">
+				<a href="#" class="tag">Udalav</a>
+				<a href="#" class="tag">Petuh</a>
+				<a href="#" class="tag">Technopark</a>
+				<a href="#" class="tag">Voloshin</a>
+			</div>
+			<div class="question-inner-container">
+				<a href="#" class="tag">Answers:0</a>
+			</div>
+		</div>
+	</div>
+</div>
+{%endfor%}
+<nav>
+	<ul class="pagination pagination-lg">
+    	<li>
+      		<a href="#" aria-label="Previous">
+        	<span aria-hidden="true">&laquo;</span>
+      		</a>
+    	</li>
+    	<li><a href="#">1</a></li>
+    	<li><a href="#">2</a></li>
+    	<li><a href="#">3</a></li>
+    	<li><a href="#">4</a></li>
+    	<li><a href="#">5</a></li>
+    	<li>
+      		<a href="#" aria-label="Next">
+        	<span aria-hidden="true">&raquo;</span>
+      		</a>
+    	</li>
+  	</ul>
+</nav>
+{%endblock%}
+

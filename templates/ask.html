@@ -1,0 +1,27 @@
+{%extends "base.html"%}
+{%block title%}Ask{%endblock%}
+{%block content%}
+<div class="header top-offset bottom-offset">Ask Question</div>
+<form class="form-horizontal top-offset">
+  <div class="form-group">
+    <label for="inputLogin" class="col-xs-2 control-label">Title</label>
+    <div class="col-xs-10">
+      <input type="email" class="form-control input-form short-form" id="inputTitle" placeholder="Title">
+    </div>
+  </div>
+   <div class="form-group">
+     <label for="inputEmail" class="col-xs-2 control-label">Text</label>
+	<textarea type="text" class="col-xs-10 form-control input-form" rows="5" placeholder="Enter your question here..." id="inputText"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail" class="col-xs-2 control-label">Tags</label>
+    <div class="col-xs-10">
+      <input type="email" class="form-control input-form short-form" id="inputTags" placeholder="Tags" data-role="tagsinput">
+    </div>
+  </div>
+ </form>
+ <div class="col-xs-offset-2 col-xs-10" id="ask-button-container">
+     <button type="submit" class="btn style-btn short-form">Ask</button>
+ </div>
+
+{%endblock%}
