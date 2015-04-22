@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ask',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -68,7 +69,7 @@ DATABASES = {
         'USER': 'askuser',
         'PASSWORD': 'secret',
         'HOST': 'localhost',
-        'PORT': '3306', 
+        'PORT': '',
     }
 }
 
