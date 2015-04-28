@@ -20,8 +20,11 @@
 			</div>
 			<div class="question-tags-container">
 				{%for tag in question.tags.all%}
-				<a href="#" class="tag">{{tag.title}}</a>
+				<a href="/?tag={{ tag.title }}" class="tag">{{tag.title}}</a>
 				{%endfor%}
+			</div>
+			<div class="date-container date-full">
+				{{ question.created }}
 			</div>
 		</div>
 	</div>
@@ -43,6 +46,14 @@
 		<div class="row">
 			<div class="answer-title-container">
 				<div class="title-text">{{answer.content}}</div>
+			</div>
+			<div class="checkbox question-inner-container">
+				<label>
+					<input type="checkbox">Correct!
+				</label>
+			</div>
+			<div class="date-container date-full">
+				{{ answer.created }}
 			</div>
 		</div>
 	</div>

@@ -6,7 +6,11 @@ global_context = {"authorized" : True}
 
 def index(request):
 	#try:
-	question_list = Question.objects.order_by('created')[:20]
+	tag = request.GET.get('tag')
+	if tag:
+		question_list = Question.newest_questions.filter(tags__title__exact=tag)
+	else:
+		question_list = Question.newest_questions.all()
 	context = dict(global_context)
 	context.update( { 'question_list': question_list } )
 	response = render(request, 'index.html', context)

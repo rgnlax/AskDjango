@@ -4,7 +4,6 @@
 }
 #page_container {
   margin: 0px;
-  min-width: 560px;
   width: 100%;
   display: block;
   padding: 0px;
@@ -51,7 +50,8 @@
 }
 body {
   font-family: 'Gill Sans';
-  background-color: #efefef;
+  background-color: #e1e1e1;
+  min-width: 630px;
 }
 .img-circle-nav {
   border-style: solid;
@@ -145,7 +145,6 @@ footer {
   padding-right: 10px;
   float: left;
   overflow: hidden;
-  padding: 0px;
 }
 .answers-container .qst-left {
   max-width: 90px;
@@ -204,17 +203,13 @@ a.header:focus {
   color: #222;
 }
 .question-title-container {
-  display: block;
   width: 100%;
-  padding: 10px;
+  padding-top: 10px;
   padding-left: 15px;
   padding-right: 15px;
   color: #222;
   font-size: 16px;
-  margin-right: 0px;
-  height: 58px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-height: 90px;
 }
 .question-title-container-full {
   display: block;
@@ -239,16 +234,13 @@ a.header:focus {
   vertical-align: middle;
 }
 .question-inner-container {
-  display: block;
-  width: 100%;
-  padding: 15px;
-
+  float: left;
+  padding: 5px;
+  padding-left: 15px;
 }
 .question-tags-container {
-  display: block;
-  width: 100%;
-  padding-left: 15px;
-  margin-bottom: 15px;
+  float: left;
+  padding: 15px;
 }
 .tag {
   background-color: #E0704D;
@@ -358,6 +350,7 @@ a.tag {
   margin: auto;
 }
 .img-full {
+  margin-top: 15px;
   width: 70%;
   height: 70%;
 }
@@ -404,4 +397,35 @@ a.tag {
 #ask-button-container {
   padding-left: 5px;
   padding-right: 0px;
+}
+.date-container {
+  margin-right: 15px;
+  padding-top: 10px;
+  float: right;
+  color: #888;
+}
+.date-full {
+  padding: 15px;
+}
+.pills > li{
+  float: right;
+}
+.pills > li > a {
+  color: #222;
+}
+.pills > li.active {
+  background-color: #E06243;
+}
+.pills > li.active > a {
+  color: white;
+}
+.pills > li.active > a:hover {
+  background-color: #E06243;
+}
+.pills > .title {
+  float: left;
+  display: block;
+  padding: 10px 15px;
+  font-size: 20px;
+  color: #222;
 }

@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Ask{% endblock %}
 {% block content %}
+  <div class="header row">
+    <ul class="nav pills">
+      <li role="presentation" class="active"><a href="#">All</a></li>
+      <li role="presentation"><a href="#">Best</a></li>
+      <li class="title">All questions</li>
+    </ul>
+  </div>
 {% if question_list %}
 {% for question in question_list %}
 <div class="question-container">
@@ -15,19 +22,17 @@
     </button>
   </div>
   <div class="qst-right">
-    <div class="row">
+    <div class>
       <a href="/question/{{ question.id }}/" class="header">{{ question.title }}</a>
       <div class="question-title-container">
-        <div class="title-text">{{ question.content }}</div>
+        <div class="title-text">{{ question.content|slice:":250" }}...</div>
       </div>
       <div class="question-inner-container">
 				{% for tag in question.tags.all %}
-        <a href="#" class="tag">{{ tag.title }}</a>
+          <a href="?tag={{ tag.title }}" class="tag">{{ tag.title }}</a>
 				{% endfor %}
       </div>
-      <div class="question-inner-container">
-        <a href="/question/{{ question.id }}/" class="tag">Answers:{{ question.answer_set.count }}</a>
-      </div>
+      <div class="date-container">{{question.created}}</div>
     </div>
   </div>
 </div>
