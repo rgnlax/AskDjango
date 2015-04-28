@@ -4,7 +4,7 @@
 {% if question_list %}
 {% for question in question_list %}
 <div class="question-container">
-  <div class="col-xs-1 qst-left">
+  <div class="qst-left">
     <img class="img-circle img-min" src="{{ question.author.avatar }}"></img>
     <button type="submit" class="btn rating-btn">
       <img src="../static/img/up.png" class="rating-img">
@@ -14,8 +14,8 @@
       <img src="../static/img/down.png" class="rating-img">
     </button>
   </div>
-  <div class="col-xs-11 qst-right">
-    <div class="row" style="min-height:181px;">
+  <div class="qst-right">
+    <div class="row">
       <a href="/question/{{ question.id }}/" class="header">{{ question.title }}</a>
       <div class="question-title-container">
         <div class="title-text">{{ question.content }}</div>

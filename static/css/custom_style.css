@@ -141,8 +141,9 @@ footer {
   height: 150px;
 }
 .qst-left {
-  margin-top: 15px;
-  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  float: left;
   overflow: hidden;
   padding: 0px;
 }
@@ -151,7 +152,6 @@ footer {
 }
 .qst-right {
   height: 100%;
-  display: table;
   overflow: hidden;
   border-left: 1px solid #ededed;
 }
@@ -241,7 +241,8 @@ a.header:focus {
 .question-inner-container {
   display: block;
   width: 100%;
-  padding-left: 15px;
+  padding: 15px;
+
 }
 .question-tags-container {
   display: block;
@@ -361,6 +362,7 @@ a.tag {
   height: 70%;
 }
 .img-min {
+  margin-top: 15px;
   width: 42px;
   height: 42px;
 }
