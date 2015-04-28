@@ -3,10 +3,9 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = patterns('',
-    url(r'^$', views.index),
-    url(r'^question', views.question),
-    url(r'^login', views.login),
-    url(r'^register', views.register),
-    url(r'^ask', views.ask)
+    url(r'^$', views.index, name="index"),
+    url(r'^question/(?P<question_id>\d+)', views.question, name="question"),
+    url(r'^login', views.login, name="login"),
+    url(r'^register', views.register, name="register"),
+    url(r'^ask', views.ask, name="ask")
 )
-
