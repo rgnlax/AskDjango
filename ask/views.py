@@ -4,18 +4,22 @@ from django.http import Http404
 
 global_context = {"authorized" : True}
 
-def index(request):
-	#try:
+def index(request, order=None):
 	tag = request.GET.get('tag')
 	if tag:
 		question_list = Question.newest_questions.filter(tags__title__exact=tag)
 	else:
-		question_list = Question.newest_questions.all()
-	context = dict(global_context)
-	context.update( { 'question_list': question_list } )
+		if not order or order == 'newest':
+			question_list = Question.newest_questions.all()
+		elif order == 'best':
+			question_list = Question.best_questions.all()
+		else:
+			raise Http404
+
+	context = { 'question_list': question_list,
+				'order': order,
+				'tag': tag }
 	response = render(request, 'index.html', context)
-	#except Exception, e:
-	#	raise Http404
 	return response
 
 def question(request, question_id):

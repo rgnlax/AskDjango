@@ -3,9 +3,11 @@
 {% block content %}
   <div class="header row">
     <ul class="nav pills">
-      <li role="presentation" class="active"><a href="#">All</a></li>
-      <li role="presentation"><a href="#">Best</a></li>
-      <li class="title">All questions</li>
+        <li {% if not tag and not order or order == 'newest' %}class="active"{% endif %}><a href="/newest">Newest</a></li>
+        <li {% if order == 'best' %}class="active"{% endif %}><a href="/best">Best</a></li>
+        {% if tag %}
+        <li class="title">Tag: {{ tag }}</li>
+        {% endif %}
     </ul>
   </div>
 {% if question_list %}

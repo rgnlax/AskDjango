@@ -205,8 +205,8 @@ a.header:focus {
 .question-title-container {
   width: 100%;
   padding-top: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 7px;
+  padding-right: 7px;
   color: #222;
   font-size: 16px;
   min-height: 90px;
@@ -215,8 +215,6 @@ a.header:focus {
   display: block;
   width: 100%;
   padding: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
   color: #222;
   font-size: 18px;
   margin-right: 0px;
@@ -224,13 +222,15 @@ a.header:focus {
 }
 .answer-title-container {
   display: block;
-  width: 100%;
-  padding: 20px;
+  margin: auto;
+  padding: 5px;
   color: #222;
   font-size: 18px;
   min-height: 172px;
+  border-bottom: 1px solid #ededed;
 }
 .title-text {
+  padding: 8px;
   vertical-align: middle;
 }
 .question-inner-container {
@@ -425,7 +425,7 @@ a.tag {
 .pills > .title {
   float: left;
   display: block;
-  padding: 10px 15px;
-  font-size: 20px;
+  padding: 3px;
+  font-size: 30px;
   color: #222;
 }

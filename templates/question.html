@@ -1,70 +1,65 @@
-{%extends "base.html"%}
-{%block title%}Question{%endblock%}
-{%block content%}
+{%extends "base.html"%} {%block title%}Question{%endblock%} {%block content%}
 <div class="question-container">
-	<div class="col-xs-2 qst-left">
-		<img src="{{question.author.avatar}}" class="img-circle img-full">
-		<button type="submit" class="btn rating-btn">
-			<img src="http://104.236.223.159/static/img/up.png" class="rating-img">
-		</button>
-		<div class="rating-label">{{question.rating}}</div>
-		<button type="submit" class="btn rating-btn">
-			<img src="http://104.236.223.159/static/img/down.png" class="rating-img">
-		</button>
-	</div>
-	<div class="col-xs-10 qst-right" style="min-height: 216px;">
-		<div class="row">
-			<div class="question-header">{{question.title}}</div>
-			<div class="question-title-container-full">
-				<div class="title-text">{{question.content}}</div>
-			</div>
-			<div class="question-tags-container">
-				{%for tag in question.tags.all%}
-				<a href="/?tag={{ tag.title }}" class="tag">{{tag.title}}</a>
-				{%endfor%}
-			</div>
-			<div class="date-container date-full">
-				{{ question.created }}
-			</div>
-		</div>
-	</div>
+  <div class="col-xs-2 qst-left">
+    <img src="{{question.author.avatar}}" class="img-circle img-full">
+    <button type="submit" class="btn rating-btn">
+      <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
+    </button>
+    <div class="rating-label">{{question.rating}}</div>
+    <button type="submit" class="btn rating-btn">
+      <img src="http://104.236.223.159/static/img/down.png" class="rating-img">
+    </button>
+  </div>
+  <div class="col-xs-10 qst-right" style="min-height: 216px;">
+    <div class="row">
+      <div class="question-header">{{question.title}}</div>
+      <div class="question-title-container-full">
+        <div class="title-text">{{question.content}}</div>
+      </div>
+      <div class="question-tags-container">
+        {%for tag in question.tags.all%}
+        <a href="/?tag={{ tag.title }}" class="tag">{{tag.title}}</a> {%endfor%}
+      </div>
+      <div class="date-container date-full">
+        {{ question.created }}
+      </div>
+    </div>
+  </div>
 </div>
 <div class="header">Answers</div>
 {%for answer in answer_list%}
 <div class="answers-container">
-	<div class="col-xs-2 qst-left">
-		<img class="img-circle img-min" src="{{answer.author.avatar}}"></img>
-		<button type="submit" class="btn rating-btn">
-			<img src="http://104.236.223.159/static/img/up.png" class="rating-img">
-		</button>
-		<div class="rating-label">{{answer.rating}}</div>
-		<button type="submit" class="btn rating-btn">
-			<img src="http://104.236.223.159/static/img/down.png" class="rating-img">
-		</button>
-	</div>
-	<div class="col-xs-10 qst-right">
-		<div class="row">
-			<div class="answer-title-container">
-				<div class="title-text">{{answer.content}}</div>
-			</div>
-			<div class="checkbox question-inner-container">
-				<label>
-					<input type="checkbox">Correct!
-				</label>
-			</div>
-			<div class="date-container date-full">
-				{{ answer.created }}
-			</div>
-		</div>
-	</div>
+  <div class="qst-left">
+    <img class="img-circle img-min" src="{{answer.author.avatar}}"></img>
+    <button type="submit" class="btn rating-btn">
+      <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
+    </button>
+    <div class="rating-label">{{answer.rating}}</div>
+    <button type="submit" class="btn rating-btn">
+      <img src="http://104.236.223.159/static/img/down.png" class="rating-img">
+    </button>
+  </div>
+  <div class="qst-right">
+    <div class="answer-title-container">
+      <div class="title-text">{{answer.content}}</div>
+    </div>
+    <div class="checkbox question-inner-container">
+      <label>
+        <input type="checkbox">Correct!
+      </label>
+    </div>
+    <div class="date-container date-full">
+      {{ answer.created }}
+    </div>
+  </div>
 </div>
 {%endfor%}
 <form class="form wide">
-	<div class="form-group">
-		<textarea type="text" class="form-control input-form" rows="5" placeholder="Enter your answer here..."></textarea>
-	</div>
-	<div class="form-group">
-		<button type="submit" class="btn style-btn">Answer</button>
-	</div>
+  <div class="form-group">
+    <textarea type="text" class="form-control input-form" rows="5" placeholder="Enter your answer here..."></textarea>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn style-btn">Answer</button>
+  </div>
 </form>
 {%endblock%}
