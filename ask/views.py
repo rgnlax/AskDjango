@@ -6,6 +6,7 @@ global_context = {"authorized" : True}
 
 def index(request, order=None):
 	tag = request.GET.get('tag')
+	context = dict(global_context)
 	if tag:
 		question_list = Question.newest_questions.filter(tags__title__exact=tag)
 	else:
@@ -16,9 +17,9 @@ def index(request, order=None):
 		else:
 			raise Http404
 
-	context = { 'question_list': question_list,
-				'order': order,
-				'tag': tag }
+	context.update( { 'question_list': question_list} )
+	context.update( { 'order': order } )
+	context.update( { 'tag': tag } )
 	response = render(request, 'index.html', context)
 	return response
 

@@ -31,7 +31,7 @@
       </form>
     </div>
     <div class="col-xs-4">
-
+      {% if authorized %}
       <img src="http://lorempixel.com/50/50/" class="img-circle-nav">
       <span class="account-label">Alex Udalav</span>
       <span>
@@ -44,7 +44,7 @@
           <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
         </button>
       </span>
-      <!--
+      {% else %}
       <span>
         <a href="login">
           <button type="button" class="btn account-btn">
@@ -59,12 +59,11 @@
           </button>
         </a>
       </span>
-    </div>-->
+    </div>
+    {% endif %}
   </nav>
   <div class="container" id="page_container">
-    <div class="col-xs-2">
-    </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6 col-xs-offset-2">
       {%block content%} {%endblock%}
     </div>
     <div class="col-xs-4">
@@ -99,11 +98,9 @@
     </div>
   </div>
   <footer>
-    <div class="col-xs-4"></div>
-    <div class="col-xs-4">
+    <div class="col-xs-4 col-xs-offset-4">
       <div class="footer-text">Ask.Pedchenko ©2015</div>
     </div>
-    <div class="col-xs-4"></div>
   </footer>
 </body>
 
