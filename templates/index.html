@@ -16,11 +16,11 @@
   <div class="qst-left">
     <img class="img-circle img-min" src="{{ question.author.avatar }}"></img>
     <button type="submit" class="btn rating-btn">
-      <img src="../static/img/up.png" class="rating-img">
+      <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
     </button>
     <div class="rating-label">{{ question.rating }}</div>
     <button type="submit" class="btn rating-btn">
-      <img src="../static/img/down.png" class="rating-img">
+      <img src="http://104.236.223.159/static/img/down.png" class="rating-img">
     </button>
   </div>
   <div class="qst-right">
@@ -44,21 +44,21 @@
 {% endif %}
 <nav>
   <ul class="pagination pagination-lg">
+    {% if question_list.has_previous %}
+      <li>
+        <a href="?page={{ question_list.previous_page_number }}">&lt;&lt;</a>
+      </li>
+    {% endif %}
+    {% if question_list.has_next %}
     <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
+      <a href="">{{ question_list.number }}</a>
     </li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
+    {% endif %}
+    {% if question_list.has_next %}
+      <li>
+        <a href="?page={{ question_list.next_page_number }}">&gt;&gt;</a>
+      </li>
+    {% endif %}
   </ul>
 </nav>
 {% endblock %}
