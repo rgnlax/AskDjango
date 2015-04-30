@@ -6,12 +6,11 @@ from loremipsum import get_sentence, get_paragraph, get_sentences, get_paragraph
 import pytz, re
 from ask.models import Question, Answer, Tag, Like, CustomUser
 
-users_count = 100
-questions_count = 100
-answers_count = 1000
-tags_count = 100
-question_votes_count = 100
-answer_votes_count = 100
+users_count   =   10000
+questions_count = 100000
+answers_count  =  1000000
+tags_count    =   10000
+votes_count   =   2000000
 
 class Command(BaseCommand):
     help = 'Filling databese with data'
@@ -34,6 +33,7 @@ class Command(BaseCommand):
 				is_active=True,
 				date_joined=datetime(2014, 1, 1, 1, 0, 0, 0, pytz.UTC)
             )
+            self.stdout.write("User#%d" % user_id)
             user.save()
 
         for question_id in range(1, questions_count + 1):
@@ -49,7 +49,17 @@ class Command(BaseCommand):
                 created=self.random_date(),
                 rating=0
             )
+            for q_mark in range(1, 5):
+                value = randint(0, 1)
+                if l_value == 0:
+                    l_value = -1
+                like = Like(author_id=randint(1, users_count), value=l_value)
+                like.save()
+                question.likes.add(like)
+                question.rating += like.value
+                self.stdout.write("Like")
 
+            self.stdout.write("Question#%d" % question_id)
             question.save()
 
         for answer_id in range(1, answers_count + 1):
@@ -66,6 +76,17 @@ class Command(BaseCommand):
 				rating=0
             )
 
+            for q_mark in range(1, 2):
+                value = randint(0, 1)
+                if l_value == 0:
+                    l_value = -1
+                like = Like(author_id=randint(1, users_count), value=l_value)
+                like.save()
+                answer.likes.add(like)
+                answer.rating += like.value
+                self.stdout.write("Like")
+
+            self.stdout.write("Answer#%d" % answer_id)
             answer.save()
 
         words = open('ask/words', 'r')
@@ -74,6 +95,7 @@ class Command(BaseCommand):
 			tag = Tag(
 					id=tag_id,
 					title=words.readline()[:-1])
+
 			tag.save()
 
         words.close()
