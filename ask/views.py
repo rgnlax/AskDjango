@@ -8,7 +8,7 @@ global_context = {"authorized" : True}
 def index(request, order=None):
 	context = dict(global_context)
 
-	questions_on_page = 20
+	questions_on_page = 3
 
 	tag = request.GET.get('tag')
 	page = request.GET.get('page')
