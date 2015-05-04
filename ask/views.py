@@ -8,7 +8,7 @@ global_context = {"authorized" : True}
 def index(request, order=None):
 	context = dict(global_context)
 
-	questions_on_page = 3
+	questions_on_page = 20
 
 	tag = request.GET.get('tag')
 	page = request.GET.get('page')
@@ -45,7 +45,19 @@ def question(request, question_id):
 	except ObjectDoesNotExist:
 		raise Http404
 
-	answer_list = question.answer_set.order_by('-created', '-rating')
+	answers_on_page = 10
+	answers = question.answer_set.order_by('-rating', '-created')
+
+	page = request.GET.get('page')
+	paginator = Paginator(answers, answers_on_page)
+
+	try:
+		answer_list = paginator.page(page)
+	except PageNotAnInteger:
+		answer_list = paginator.page(1)
+	except EmptyPage:
+		answer_list = paginator.page(paginator.num_pages)
+
 	context = dict(global_context)
 	context.update( { 'question': question} )
 	context.update( { 'answer_list': answer_list } )
