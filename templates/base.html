@@ -31,11 +31,11 @@
       </form>
     </div>
     <div class="col-xs-4">
-      {% if authorized %}
-      <img src="http://lorempixel.com/50/50/" class="img-circle-nav">
-      <span class="account-label">Alex Udalav</span>
+      {% if user %}
+      <img src="{{ user.avatar }}" class="img-circle-nav">
+      <span class="account-label">{{ user.username }}</span>
       <span>
-        <button type="button" class="btn account-btn">
+        <button type="button" class="btn account-btn" onclick="location.href='/logout'">
           <span class="glyphicon glyphicon-log-out"></span>
         </button>
       </span>

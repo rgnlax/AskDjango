@@ -10,4 +10,6 @@ urlpatterns = patterns('',
     url(r'^ask', views.ask, name="ask"),
     url(r'^newest', views.index, {'order':'newest'}, name="newest"),
     url(r'^best', views.index, {'order':'best'}, name="best"),
+    url(r'^logout', views.logout, name="logout"),
+
 )

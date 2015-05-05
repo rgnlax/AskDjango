@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from ask.models import Question, Answer, Tag, Like, CustomUser
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-global_context = {"authorized" : True}
+from django.contrib.auth import authenticate, login as djangoLogin, logout as djangoLogout
 
 def index(request, order=None):
-	context = dict(global_context)
-
+	context = {}
+	context.update({'user':getAuthenticatedUser(request)})
 	questions_on_page = 20
 
 	tag = request.GET.get('tag')
@@ -58,7 +57,8 @@ def question(request, question_id):
 	except EmptyPage:
 		answer_list = paginator.page(paginator.num_pages)
 
-	context = dict(global_context)
+	context = {}
+	context.update({'user':getAuthenticatedUser(request)})
 	context.update( { 'question': question} )
 	context.update( { 'answer_list': answer_list } )
 
@@ -66,22 +66,60 @@ def question(request, question_id):
 	return response
 
 def login(request):
-	#try:
-	response = render(request, 'login.html')
-	#except Exception, e:
-	#	raise Http404
-	return response
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/')
+
+	context = {}
+	try:
+		path = request.GET['continue']
+	except KeyError, e:
+		path='/'
+
+	try:
+		username = request.POST['username']
+		password = request.POST['password']
+		context.update({'username':username, 'password':password})
+	except KeyError:
+		pass
+	try:
+		user = authenticate(username=username, password=password)
+	except:
+		user = None
+
+	if user is not None:
+		if user.is_active:
+			djangoLogin(request, user)
+			return HttpResponseRedirect(path)
+        else:
+        	pass
+        	#diabled account message
+	return render(request, 'login.html', context)
 
 def register(request):
 	#try:
-	response = render(request, 'register.html')
+	context = {}
+	context.update({'user':getAuthenticatedUser(request)})
+	response = render(request, 'register.html', context)
 	#except Exception, e:
 	#	raise Http404
 	return response
 
 def ask(request):
 	#try:
+	context.update({'user':getAuthenticatedUser(request)})
 	response = render(request, 'ask.html')
 	#except Exception, e:
 	#	raise Http404
 	return response
+
+def getAuthenticatedUser(request):
+	if request.user.is_authenticated():
+		user = CustomUser.objects.get(user_ptr_id=request.user.id)
+	else:
+		user = None
+	return user
+
+def logout(request):
+	djangoLogout(request)
+	return HttpResponseRedirect('/')
+
