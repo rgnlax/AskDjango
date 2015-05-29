@@ -3,6 +3,9 @@ from ask.models import Question, Answer, Tag, Like, CustomUser
 from django.http import Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login as djangoLogin, logout as djangoLogout
+from forms import  RegisterForm
+from django.views.decorators.csrf import csrf_exempt
+
 
 def index(request, order=None):
 	context = {}
@@ -69,7 +72,7 @@ def login(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/')
 
-	context = {}
+	context = {'user':getAuthenticatedUser(request)}
 	try:
 		path = request.GET['continue']
 	except KeyError, e:
@@ -96,13 +99,23 @@ def login(request):
 	return render(request, 'login.html', context)
 
 def register(request):
-	#try:
-	context = {}
-	context.update({'user':getAuthenticatedUser(request)})
-	response = render(request, 'register.html', context)
-	#except Exception, e:
-	#	raise Http404
-	return response
+	form = RegisterForm()
+
+	try:
+		path = request.GET['continue']
+	except KeyError, e:
+		path='/'
+
+	if request.method == 'POST':
+		form = RegisterForm(request.POST, request.FILES)
+		if form.saveUser():
+			user = authenticate(username=login, password=password)
+			djangoLogin(request, user)
+			return HttpResponseRedirect(continue_path)
+			
+	user = getAuthenticatedUser(request)
+	context = {'User':user, 'form':form}
+	return render(request, 'register.html', context)
 
 def ask(request):
 	#try:
