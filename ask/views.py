@@ -101,6 +101,9 @@ def login(request):
 	return render(request, 'login.html', context)
 
 def register(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/')
+	context = ({'user':getAuthenticatedUser(request)})
 	form = RegisterForm()
 
 	try:
@@ -116,7 +119,7 @@ def register(request):
 			HttpResponseRedirect('/')
 
 	user = getAuthenticatedUser(request)
-	context = {'User':user, 'form':form}
+	context.update({'User':user, 'form':form})
 	return render(request, 'register.html', context)
 
 def ask(request):
