@@ -1,76 +1,68 @@
 {%extends "base.html"%}
 {%block title%}Register{%endblock%}
-{% block content %}
-<div class="col-xs-9">
-   <div class="registration-container panel panel-primary">
-       <div class="h_tags panel-heading" id="panel-h">Registration</div>
-       <div class="panel-body">
-           {% for error in form.non_field_errors%}
-               <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
-           {% endfor %}
-           <form class="form-horizontal" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
-               {% csrf_token %}
-               <div class="form-group">
-                   <label for="id_login" class="col-xs-3 control-label">Login</label>
-                   <div class="col-xs-4">
-                       <input type="text" class="form-control" name="login" id="id_login" maxlength="30" placeholder="Login" value="{{ form.cleaned_data.login }}">
-                   </div>
-                   {% for error in form.login.errors %}
-                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
-                   {% endfor %}
-               </div>
-               <div class="form-group">
-                   <label for="id_email" class="col-xs-3 control-label">Email</label>
-                   <div class="col-xs-4">
-                       <input type="email" name="email" class="form-control" maxlength="30" id="id_email" placeholder="Email" value="{{ form.cleaned_data.email }}">
-                   </div>
-                   {% for error in form.email.errors %}
-                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
-                   {% endfor %}
-               </div>
-               <div class="form-group">
-                   <label for="id_nickName" class="col-xs-3 control-label">NickName</label>
-                   <div class="col-xs-4">
-                       <input type="text" class="form-control" name="nickName" id="id_nickName" maxlength="30" placeholder="NickName" value="{{ form.cleaned_data.nickName }}">
-                   </div>
-                   {% for error in form.nickName.errors %}
-                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
-                   {% endfor %}
-               </div>
-               <div class="form-group">
-                   <label for="id_password1" class="col-xs-3 control-label">Password</label>
-                   <div class="col-xs-4">
-                       <input type="password" class="form-control" maxlength="30" name="password1" id="id_password1" placeholder="Password">
-                   </div>
-                   {% for error in form.password1.errors %}
-                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
-                   {% endfor %}
-               </div>
-               <div class="form-group">
-                   <label for="id_password2" class="col-xs-3 control-label">Reapeat password</label>
-                   <div class="col-xs-4">
-                       <input type="password" class="form-control" maxlength="30" name="password2" id="id_password2" placeholder="Repeat Password">
-                   </div>
-                   {% for error in form.password2.errors %}
-                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
-                   {% endfor %}
-               </div>
-               <div class="form-group">
-                   <label for="id_avatar" class="col-xs-3 control-label">Upload avatar</label>
-                   <div class="col-xs-5">
-                       {{ form.avatar }}
-                   </div>
-                   {% for error in form.avatar.errors %}
-                        <div class="col-xs-3 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
-                   {% endfor %}
-               </div>
-               <div class="form-group">
-                   <div class="col-xs-offset-3 col-xs-4">
-                       <button type="submit" class="btn btn-success" value="Register">Register!</button>
-                   </div>
-               </div>
-           </form>
-       </div>   
+{%block content%}
+<div class="header top-offset">Register</div>
+<form class="form-horizontal top-offset" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+  {%csrf_token%}
+  <div class="form-group">
+    <label for="id_login" class="col-sm-2 control-label">Login</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control input-form short-form" id="id_login" placeholder="Login" name="login" value="{{form.cleaned_data.login}}">
     </div>
-</div>
-{% endblock %}
+    {% for error in form.login.errors %}
+      <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <label for="id_email" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control input-form short-form" id="id_email" placeholder="Email" name="email" value="{{form.cleaned_data.email}}">
+    </div>
+    {% for error in form.email.errors %}
+      <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <label for="id_nickName" class="col-sm-2 control-label">Nickname</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control input-form short-form" id="id_nickName" placeholder="Nickname" name="nickName" value="{{form.cleaned_data.nickName}}">
+    </div>
+    {% for error in form.nickName.errors %}
+      <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="header top-offset bottom-offset"></div>
+  <div class="form-group">
+    <label for="id_password1" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control input-form short-form" id="id_password1" placeholder="Password" name="password1">
+    </div>
+    {% for error in form.password1.errors %}
+      <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <label for="id_password2" class="col-sm-2 control-label">Confirm</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control input-form short-form" id="id_password2" placeholder="Confirm password" name="password2">
+    </div>
+    {% for error in form.password2.errors %}
+      <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <label for="id_avatar" class="col-sm-2 control-label">Upload avatar</label>
+    <div class="col-sm-10">
+      {{ form.avatar }}
+    </div>
+    {% for error in form.avatar.errors %}
+      <div class="col-xs-3 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+    {% endfor %}
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn style-btn" value="Register">Register</button>
+    </div>
+  </div>
+</form>
+{%endblock%}
