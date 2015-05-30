@@ -3,8 +3,10 @@ from ask.models import Question, Answer, Tag, Like, CustomUser
 from django.http import Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login as djangoLogin, logout as djangoLogout
-from forms import  RegisterForm
+from ask.forms import RegisterForm, MainSettingsForm, PswSettingsForm, AvatarSettingsForm
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
 
 
 def index(request, order=None):
@@ -109,10 +111,10 @@ def register(request):
 	if request.method == 'POST':
 		form = RegisterForm(request.POST, request.FILES)
 		if form.saveUser():
-			user = authenticate(username=login, password=password)
-			djangoLogin(request, user)
-			return HttpResponseRedirect(continue_path)
-			
+			return HttpResponseRedirect(path)
+		else:
+			HttpResponseRedirect('/')
+
 	user = getAuthenticatedUser(request)
 	context = {'User':user, 'form':form}
 	return render(request, 'register.html', context)
@@ -135,4 +137,54 @@ def getAuthenticatedUser(request):
 def logout(request):
 	djangoLogout(request)
 	return HttpResponseRedirect('/')
+
+@login_required(login_url='/login/')
+def settings(request):
+    User = getAuthenticatedUser(request)
+
+    if request.method == 'POST':
+        if 'login' in request.POST:
+            mainForm = MainSettingsForm(request.POST)
+
+            if mainForm.is_valid_(User):
+                User.username = mainForm.cleaned_data.get('login')
+                User.email = mainForm.cleaned_data.get('email')
+                User.first_name = mainForm.cleaned_data.get('nickName')
+                User.save()
+
+            login = request.POST.get('login')
+            email = request.POST.get('email')
+            nickName = request.POST.get('nickName')
+        else:
+            login = User.username
+            email = User.email
+            nickName = User.first_name
+            mainForm = MainSettingsForm()
+
+        if 'password1' in request.POST:
+            pswForm = PswSettingsForm(request.POST)
+            if pswForm.is_valid_():
+                User.set_password(pswForm.cleaned_data.get('password1'))
+                User.save()
+        else:
+            pswForm = PswSettingsForm()
+
+        if 'avatar' in request.FILES:
+            avatarForm = AvatarSettingsForm(request.POST, request.FILES)
+            if avatarForm.is_valid():
+                User.avatar = avatarForm.cleaned_data.get('avatar')
+                User.save()
+        else:
+            avatarForm = AvatarSettingsForm()
+
+    else:
+        login = User.username
+        email = User.email
+        nickName = User.first_name
+        mainForm = MainSettingsForm()
+        pswForm = PswSettingsForm()
+        avatarForm = AvatarSettingsForm()
+
+    context = {'User':User, 'mainForm':mainForm, 'pswForm':pswForm, 'avatarForm':avatarForm, 'login':login, 'email':email, 'nickName':nickName}
+    return render(request, 'settings.html', context)
 

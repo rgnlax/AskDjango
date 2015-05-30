@@ -7,8 +7,8 @@ class RegisterForm(forms.Form):
     login = forms.CharField(max_length=30)
     email = forms.EmailField(max_length=30)
     nickName = forms.CharField(max_length=30)
-    password = forms.CharField(max_length=30)
-    passwordConfirmation = forms.CharField(max_length=30)
+    password1 = forms.CharField(max_length=30)
+    password2 = forms.CharField(max_length=30)
     avatar = forms.ImageField()
 
     def is_valid_(self):
@@ -17,28 +17,63 @@ class RegisterForm(forms.Form):
             self.add_error('login', "Это имя уже занято")
             ret = False
         if len(CustomUser.objects.filter(email=self.cleaned_data.get('email'))) > 0:
-            self.add_error('email', "Этот email уже используется")
+            self.add_error('email', "Этот email уже использован")
             ret = False
-        if self.cleaned_data.get('password') != self.cleaned_data.get('passwordConfirmation'):
-            self.add_error('password', "Пароли не совпадают")
-            self.add_error('passwordConfirmation', "Пароли не совпадают")
+        if self.cleaned_data.get('password1') != self.cleaned_data.get('password2'):
+            self.add_error('password1', "Пароли не совпадают")
+            self.add_error('password2', "Пароли не совпадают")
             ret = False
         return ret
 
     def saveUser(self):
         if self.is_valid_():
-            user = CustomUser(  
-                    avatar='/uploads/' + login + '.png',
-                    password=make_password(password), 
-                    last_login=datetime.now(),
-                    is_superuser=False, 
-                    username=login, 
-                    first_name=nickName, 
-                    last_name="", 
-                    email=email, 
-                    is_staff=False, 
-                    is_active=True,
-                    date_joined=datetime.now())
+            user = CustomUser.objects.create_user(username=self.cleaned_data.get('login'),
+                                                  email=self.cleaned_data.get('email'),
+                                                  first_name=self.cleaned_data.get('nickName'),
+                                                  password=self.cleaned_data.get('password1'),
+                                                 )
+            user.avatar = self.cleaned_data.get('avatar')
             user.save()
             return True
         return False
+class AvatarSettingsForm(forms.Form):
+    avatar = forms.ImageField()
+
+class MainSettingsForm(forms.Form):
+    login = forms.CharField(max_length=30)
+    email = forms.EmailField(max_length=30)
+    nickName = forms.CharField(max_length=30)
+
+    def is_valid_(self, user):
+        ret = self.is_valid()
+        try:
+            u = CustomUser.objects.get(username=self.cleaned_data.get('login'))
+            if u.user_ptr_id != user.user_ptr_id:
+                self.add_error('login', "Это имя уже занято")
+                ret = False
+        except CustomUser.DoesNotExist:
+            pass
+        try:
+            u = CustomUser.objects.get(email=self.cleaned_data.get('email'))
+            if u.user_ptr_id != user.user_ptr_id:
+                self.add_error('email', "Этот email уже использован")
+                ret = False
+        except CustomUser.DoesNotExist:
+            pass
+
+        return ret
+
+class PswSettingsForm(forms.Form):
+    password1 = forms.CharField(max_length=30)
+    password2 = forms.CharField(max_length=30)
+
+    def is_valid_(self):
+        ret = self.is_valid()
+        if self.cleaned_data.get('password1') != self.cleaned_data.get('password2'):
+            self.add_error('password1', "Пароли не совпадают")
+            self.add_error('password2', "Пароли не совпадают")
+            ret = False
+        return ret
+
+class AvatarSettingsForm(forms.Form):
+    avatar = forms.ImageField()

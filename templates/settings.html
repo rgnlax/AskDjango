@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+    <div class="col-xs-9">
+        <div class="user-page-container">
+            <div class="h_tags">Settings</div>
+            <div class="user-settings-container">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="{{ User.avatar.url }}" class="img-rounded user-page-avatar">
+                        <form class="form-horizontal" action="{% url 'settings' %}" method="post" enctype="multipart/form-data" name="avatarForm">
+                            {% csrf_token %}
+                            <div class="form-group show-center">
+                               {{ avatarForm.avatar }}
+                               {% for error in avatarForm.avatar.errors %}
+                                    <div class="alert alert-danger" role="alert" id="change-avatar-field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                               {% endfor %}
+                           </div>
+                           <div class="form-group">
+                               <button type="submit" class="btn btn-success show-center" value="Register" id="change-avatar-btn">Change avatar!</button>
+                           </div>
+                        </form>
+                    </div>
+                    <div class="col-xs-9">
+                       <div class="settings-page-change-smth">Change main properties:</div>
+                       <form class="form-horizontal" action="{% url 'settings' %}" method="post"  onsubmit="return validateMainForm()" name="mainForm">
+                           {% csrf_token %}
+                           <div class="form-group">
+                               <label for="id_login" class="col-xs-4 control-label">Login</label>
+                               <div class="col-xs-5">
+                                   <input type="text" class="form-control" name="login" id="id_login" maxlength="30" placeholder="Login" value="{{ login }}">
+                               </div>
+                               {% for error in mainForm.login.errors %}
+                                    <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                               {% endfor %}
+                           </div>
+                           <div class="form-group">
+                               <label for="id_email" class="col-xs-4 control-label">Email</label>
+                               <div class="col-xs-5">
+                                   <input type="email" name="email" class="form-control" maxlength="30" id="id_email" placeholder="Email" value="{{ email }}">
+                               </div>
+                               {% for error in mainForm.email.errors %}
+                                    <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                               {% endfor %}
+                           </div>
+                           <div class="form-group">
+                               <label for="id_nickName" class="col-xs-4 control-label">NickName</label>
+                               <div class="col-xs-5">
+                                   <input type="text" class="form-control" name="nickName" id="id_nickName" maxlength="30" placeholder="NickName" value="{{ nickName }}">
+                               </div>
+                               {% for error in mainForm.nickName.errors %}
+                                    <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                               {% endfor %}
+                           </div>
+                           <div class="form-group">
+                               <div class="col-xs-offset-4 col-xs-4">
+                                   <button type="submit" class="btn btn-success" value="Save changes">Save changes!</button>
+                               </div>
+                           </div>
+                       </form>
+                        <div class="settings-page-change-smth">Change password:</div>
+                        <form class="form-horizontal" action="{% url 'settings' %}" method="post"  onsubmit="return validatePswForm()" name="pswForm">
+                           {% csrf_token %}
+                            <div class="form-group">
+                               <label for="id_password1" class="col-xs-4 control-label">Password</label>
+                               <div class="col-xs-5">
+                                   <input type="password" class="form-control" maxlength="30" name="password1" id="id_password1" placeholder="Password">
+                               </div>
+                               {% for error in pswForm.password1.errors %}
+                                    <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                               {% endfor %}
+                           </div>
+                           <div class="form-group">
+                               <label for="id_password2" class="col-xs-4 control-label">Repeat password</label>
+                               <div class="col-xs-5">
+                                   <input type="password" class="form-control" maxlength="30" name="password2" id="id_password2" placeholder="Repeat Password">
+                               </div>
+                               {% for error in pswForm.password2.errors %}
+                                    <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                               {% endfor %}
+                           </div>
+                            <div class="form-group">
+                               <div class="col-xs-offset-4 col-xs-4">
+                                   <button type="submit" class="btn btn-success" value="Change password">Change password!</button>
+                               </div>
+                           </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        function validateMainForm() {
+            var a=document.forms["mainForm"]["login"].value;
+            var b=document.forms["mainForm"]["email"].value;
+            var c=document.forms["mainForm"]["nickName"].value;
+            if (a==null || a=="") {
+              $('#id_login').parent().addClass('has-error');
+              $('#id_login').popover({ content: 'This field is required' });
+            }
+            if (b==null || b=="") {
+              $('#id_email').parent().addClass('has-error');
+              $('#id_email').popover({ content: 'This field is required' });
+            }
+            if (c==null || c=="") {
+              $('#id_nickName').parent().addClass('has-error');
+              $('#id_nickName').popover({ content: 'This field is required' });
+            }
+            if (a==null || a=="" || b==null || b=="" || c==null || c=="") {
+                return false;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function validatePswForm() {
+            var a=document.forms["pswForm"]["password1"].value;
+            var b=document.forms["pswForm"]["password2"].value;
+            if (a==null || a=="") {
+              $('#id_password1').parent().addClass('has-error');
+              $('#id_password1').popover({ content: 'This field is required' });
+            }
+            if (b==null || b=="") {
+              $('#id_password2').parent().addClass('has-error');
+              $('#id_password2').popover({ content: 'This field is required' });
+            }
+            if (a==null || a=="" || b==null || b=="") {
+                return false;
+            }
+        }
+    </script>
+{% endblock %}

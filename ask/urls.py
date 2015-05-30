@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     url(r'^newest', views.index, {'order':'newest'}, name="newest"),
     url(r'^best', views.index, {'order':'best'}, name="best"),
     url(r'^logout', views.logout, name="logout"),
-
+    url(r'^settings/$', views.settings, name='settings'),
 )
