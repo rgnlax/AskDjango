@@ -32,7 +32,7 @@
     </div>
     <div class="col-xs-4">
       {% if user %}
-      <img src="{{ user.avatar }}" class="img-circle-nav">
+      <img src="{{ user.avatar.url }}" class="img-circle-nav">
       <span class="account-label">{{ user.username }}</span>
       <span>
         <button type="button" class="btn account-btn" onclick="location.href='/logout'">
@@ -40,7 +40,7 @@
         </button>
       </span>
       <span>
-        <button type="button" class="btn account-btn">
+        <button type="button" class="btn account-btn" onclick="location.href='/settings'">
           <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
         </button>
       </span>

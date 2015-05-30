@@ -36,7 +36,7 @@ class RegisterForm(forms.Form):
             user.save()
             return True
         return False
-        
+
 class AvatarSettingsForm(forms.Form):
     avatar = forms.ImageField()
 

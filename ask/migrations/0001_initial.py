@@ -3,13 +3,12 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
-import django.contrib.auth.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0006_require_contenttypes_0002'),
+        ('auth', '0001_initial'),
     ]
 
     operations = [
@@ -22,6 +21,9 @@ class Migration(migrations.Migration):
                 ('rating', models.IntegerField(default=0)),
                 ('correct', models.BooleanField(default=False)),
             ],
+            options={
+            },
+            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='CustomUser',
@@ -35,9 +37,6 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'users',
             },
             bases=('auth.user',),
-            managers=[
-                (b'objects', django.contrib.auth.models.UserManager()),
-            ],
         ),
         migrations.CreateModel(
             name='Like',
@@ -46,6 +45,9 @@ class Migration(migrations.Migration):
                 ('value', models.IntegerField()),
                 ('author', models.ForeignKey(to='ask.CustomUser')),
             ],
+            options={
+            },
+            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Question',
@@ -58,6 +60,9 @@ class Migration(migrations.Migration):
                 ('author', models.ForeignKey(to='ask.CustomUser')),
                 ('likes', models.ManyToManyField(to='ask.Like')),
             ],
+            options={
+            },
+            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Tag',
@@ -65,20 +70,32 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(unique=True, max_length=100)),
             ],
+            options={
+            },
+            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='question',
             name='tags',
             field=models.ManyToManyField(to='ask.Tag'),
+            preserve_default=True,
         ),
         migrations.AddField(
             model_name='answer',
             name='author',
             field=models.ForeignKey(to='ask.CustomUser'),
+            preserve_default=True,
         ),
         migrations.AddField(
             model_name='answer',
             name='likes',
             field=models.ManyToManyField(to='ask.Like'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='answer',
+            name='question',
+            field=models.ForeignKey(to='ask.Question', null=True),
+            preserve_default=True,
         ),
     ]
