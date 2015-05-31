@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from ask.models import Question, Answer, Tag, Like, CustomUser
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login as djangoLogin, logout as djangoLogout
 from ask.forms import RegisterForm, MainSettingsForm, PswSettingsForm, AvatarSettingsForm, LoginForm, QuestionForm, AnswerForm
@@ -208,4 +208,127 @@ def settings(request):
 
     context = {'user':User, 'mainForm':mainForm, 'pswForm':pswForm, 'avatarForm':avatarForm, 'login':login, 'email':email, 'nickName':nickName}
     return render(request, 'settings.html', context)
+
+def like(request):
+    if request.method == 'POST':
+        response_data = {}
+
+        user = getAuthenticatedUser(request)
+
+        object_id = int(request.POST.get('object_id',''))
+        like_type = int(request.POST.get('like_type',''))
+        object_type = request.POST.get('object_type','')
+
+        if user:
+            new_rating = None
+            error = None
+
+            if object_type == 'answer':
+                answ = Answer.objects.get(id=object_id)
+
+                if user != answ.author:
+                    try:
+                        like = Like.objects.filter(answer__id=object_id).get(author=user)
+                        var = setRatingVar(like_type, int(like.value))
+                        like.value = like_type
+                        like.save()
+                    except:
+                        like = Like.objects.create(author=user, value=like_type)
+                        like.save()
+                        answ.likes.add(like)
+                        var = like_type
+
+                    answ.rating = str(var + answ.rating)
+                    answ.save()
+                    new_rating = answ.rating
+                    result = 'Create like successful!'
+                else:
+                    result = 'Like wasn\'t created!'
+                    error = 'It is your answer!'
+
+            elif object_type == 'question':
+                quest = Question.objects.get(id=object_id)
+
+                if user != quest.author:
+                    try:
+                        like = Like.objects.filter(question__id=object_id).get(author=user)
+                        var = setRatingVar(like_type, int(like.value))
+                        like.value = like_type
+                        like.save()
+                    except:
+                        like = Like.objects.create(author=user, value=like_type)
+                        like.save()
+                        quest.likes.add(like)
+                        var = like_type
+
+                    quest.rating = str(var + quest.rating)
+                    quest.save()
+                    new_rating = quest.rating
+                    result = 'Create like successful!'
+                else:
+                    result = 'Like wasn\'t created!'
+                    error = 'It is your question!'
+
+            else:
+                result = 'Like wasn\'t created!'
+                error = 'Object not found!'
+
+            response_data['result'] = result
+            if new_rating:
+                response_data['new_rating'] = new_rating
+            if error:
+                response_data['error'] = error
+
+        else:
+            response_data['result'] = 'Like wasn\'t created!'
+            response_data['error'] = 'User is not authenticated!'
+
+        return JsonResponse(response_data)
+    else:
+        return JsonResponse({"error": "No POST data!"})
+
+def setRatingVar(like_type, last_type):
+    if last_type == -1:
+        if like_type == -1:
+            var = 0
+        else:
+            var = like_type + 1
+    elif last_type == 1:
+        if like_type == 1:
+            var = 0
+        else:
+            var = like_type - 1
+    else:
+        var = like_type
+    return var
+
+
+def set_correct(request):
+    if request.method == 'POST':
+        response_data = {}
+
+        user = getAuthenticatedUser(request)
+
+        answer_id = int(request.POST.get('answer_id',''))
+
+        if user:
+            answ = Answer.objects.get(id=answer_id)
+
+            if user == answ.question.author:
+                answ.correct =  not answ.correct
+                answ.save()
+                result = 'Set correct successful!'
+            else:
+                result = 'Set correct wasn\'t checked!'
+                response_data['error'] = 'This question isn\'t your!'
+
+            response_data['result'] = result
+            response_data['new_state'] = answ.correct
+        else:
+            response_data['result'] = 'Set correct wasn\'t checked!'
+            response_data['error'] = 'User is not authenticated!'
+
+        return JsonResponse(response_data)
+    else:
+        return JsonResponse({"error": "No POST data!"})
 

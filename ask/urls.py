@@ -12,4 +12,6 @@ urlpatterns = patterns('',
     url(r'^best', views.index, {'order':'best'}, name="best"),
     url(r'^logout', views.logout, name="logout"),
     url(r'^settings/$', views.settings, name='settings'),
+    url(r'^like', views.like, name='like'),
+    url(r'^correct/$', views.set_correct, name='correct'),
 )

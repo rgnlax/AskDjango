@@ -15,11 +15,11 @@
 <div class="question-container">
   <div class="qst-left">
     <img class="img-circle img-min" src="{{ question.author.avatar.url }}"></img>
-    <button type="submit" class="btn rating-btn">
+    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, 1, 'question')">
       <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
     </button>
-    <div class="rating-label">{{ question.rating }}</div>
-    <button type="submit" class="btn rating-btn">
+    <div class="rating-label" id="like{{question.id}}">{{ question.rating }}</div>
+    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, -1, 'question')">
       <img src="http://104.236.223.159/static/img/down.png" class="rating-img">
     </button>
   </div>
@@ -61,4 +61,47 @@
     {% endif %}
   </ul>
 </nav>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+        $.ajaxSetup({ 
+             beforeSend: function(xhr, settings) {
+                 function getCookie(name) {
+                     var cookieValue = null;
+                     if (document.cookie && document.cookie != '') {
+                         var cookies = document.cookie.split(';');
+                         for (var i = 0; i < cookies.length; i++) {
+                             var cookie = jQuery.trim(cookies[i]);
+                             // Does this cookie string begin with the name we want?
+                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                             break;
+                         }
+                     }
+                 }
+                 return cookieValue;
+                 }
+                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                     // Only send the token to relative URLs i.e. locally.
+                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                 }
+             } 
+        });
+       function like(objectId, likeType, objectType) {
+            $.ajax({
+                url : "{% url 'like' %}",
+                type : "POST",
+                data : { like_type : likeType,
+                         object_id : objectId,
+                         object_type : objectType
+                        },
+                success : function(data) {
+                    $('#like'+objectId).text(data.new_rating);
+                    if (data.error) {
+                        alert(data.error);
+                    }
+                } 
+            });
+        };
+    </script>
 {% endblock %}

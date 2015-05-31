@@ -2,11 +2,11 @@
 <div class="question-container">
   <div class="col-xs-2 qst-left">
     <img src="{{question.author.avatar.url}}" class="img-circle img-full">
-    <button type="submit" class="btn rating-btn">
+    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, 1, 'question')">
       <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
     </button>
-    <div class="rating-label">{{question.rating}}</div>
-    <button type="submit" class="btn rating-btn">
+    <div class="rating-label" id="like{{question.id}}">{{question.rating}}</div>
+    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, -1, 'question')">
       <img src="http://104.236.223.159/static/img/down.png" class="rating-img">
     </button>
   </div>
@@ -31,11 +31,11 @@
 <div class="answers-container">
   <div class="qst-left">
     <img class="img-circle img-min" src="{{answer.author.avatar.url}}"></img>
-    <button type="submit" class="btn rating-btn">
+    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, 1, 'answer')">
       <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
     </button>
-    <div class="rating-label">{{answer.rating}}</div>
-    <button type="submit" class="btn rating-btn">
+    <div class="rating-label" id="like{{answer.id}}">{{answer.rating}}</div>
+    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, -1, 'answer')">
       <img src="http://104.236.223.159/static/img/down.png" class="rating-img">
     </button>
   </div>
@@ -43,9 +43,9 @@
     <div class="answer-title-container">
       <div class="title-text">{{answer.content}}</div>
     </div>
-    <div class="checkbox question-inner-container">
+    <div class="checkbox question-inner-container {% if User != Question.author %} disabled {% endif %}">
       <label>
-        <input type="checkbox">Correct!
+        <input type="checkbox" id="correct{{answer.id}}" {% if answer.correct %} checked {% endif %} {% if user != Question.author %} disabled {% endif%} onclick="setCorrect({{ answer.id }})">Correct!
       </label>
     </div>
     <div class="date-container date-full">
@@ -83,3 +83,76 @@
   </div>
 </form>
 {%endblock%}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $.ajaxSetup({ 
+             beforeSend: function(xhr, settings) {
+                 function getCookie(name) {
+                     var cookieValue = null;
+                     if (document.cookie && document.cookie != '') {
+                         var cookies = document.cookie.split(';');
+                         for (var i = 0; i < cookies.length; i++) {
+                             var cookie = jQuery.trim(cookies[i]);
+                             // Does this cookie string begin with the name we want?
+                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                             break;
+                         }
+                     }
+                 }
+                 return cookieValue;
+                 }
+                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                     // Only send the token to relative URLs i.e. locally.
+                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                 }
+             } 
+        });
+
+       function like(objectId, likeType, objectType) {
+            $.ajax({
+                url : "{% url 'like' %}",
+                type : "POST",
+                data : { like_type : likeType,
+                         object_id : objectId,
+                         object_type : objectType
+                        },
+                success : function(data) {
+                    $('#like'+objectId).text(data.new_rating);
+                    if (data.error) {
+                        alert(data.error);
+                    }
+                }
+            });
+        };
+        
+        function setCorrect(answerId) {
+            $.ajax({
+                url : "{% url 'correct' %}",
+                type : "POST",
+                data : { answer_id : answerId },
+                success : function(data) {
+                    $('#correct'+answerId).text(data.new_state);
+                    if (data.error) {
+                        alert(data.error);
+                    }
+                }
+            });
+        };
+        function validateAnswForm() {
+            var a=document.forms["answForm"]["answer"].value;
+            if (a==null || a=="") {
+              $('#id_answer').parent().addClass('has-error');
+              $('#id_answer').popover({ content: 'This field is required' });
+              return false;
+            }
+        };
+        $(document).ready(function() {
+            if (window.location.hash != null && window.location.hash != '') 
+                $('body').animate({
+                    scrollTop: $(window.location.hash).offset().top
+                }, 500);
+        });
+    </script>
+{% endblock %}
