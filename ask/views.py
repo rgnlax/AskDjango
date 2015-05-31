@@ -3,7 +3,7 @@ from ask.models import Question, Answer, Tag, Like, CustomUser
 from django.http import Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login as djangoLogin, logout as djangoLogout
-from ask.forms import RegisterForm, MainSettingsForm, PswSettingsForm, AvatarSettingsForm
+from ask.forms import RegisterForm, MainSettingsForm, PswSettingsForm, AvatarSettingsForm, LoginForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
@@ -71,33 +71,15 @@ def question(request, question_id):
 	return response
 
 def login(request):
-	if request.user.is_authenticated():
-		return HttpResponseRedirect('/')
+	redirect_to = request.GET.get('next', '/')
 
 	context = {'user':getAuthenticatedUser(request)}
-	try:
-		path = request.GET['continue']
-	except KeyError, e:
-		path='/'
-
-	try:
-		username = request.POST['username']
-		password = request.POST['password']
-		context.update({'username':username, 'password':password})
-	except KeyError:
-		pass
-	try:
-		user = authenticate(username=username, password=password)
-	except:
-		user = None
-
-	if user is not None:
-		if user.is_active:
-			djangoLogin(request, user)
-			return HttpResponseRedirect(path)
-        else:
-        	pass
-        	#diabled account message
+	form = LoginForm()
+	if request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.login_user(request):
+			return HttpResponseRedirect(redirect_to)
+	context.update({'form':form})
 	return render(request, 'login.html', context)
 
 def register(request):

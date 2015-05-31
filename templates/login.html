@@ -2,11 +2,14 @@
 {%block title%}Sign in{%endblock%}
 {%block content%}
 <div class="header top-offset bottom-offset">Log In</div>
+{% for error in form.non_field_errors %}
+  <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+{% endfor %}
 <form class="form wide" method="post">
   {% csrf_token %}
   <div class="form-group">
     <label class="sr-only" for="inputLogin">Login</label>
-    <input name='username' type="text" class="form-control input-form" id="login" placeholder="Enter your login here">
+    <input name='login' type="text" class="form-control input-form" id="login" placeholder="Enter your login here">
   </div>
   <div class="form-group">
     <label class="sr-only" for="inputPassword">Password</label>

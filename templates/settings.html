@@ -3,7 +3,7 @@
 {% block content %}
   <div class="header top-offset">Settings</div>
   <div class="col-xs-offset-4" style="padding-left:25px;">
-    <img src="{{ User.avatar.url }}" class="avatar">
+    <img src="{{ user.avatar.url }}" class="avatar">
     <form class="form-horizontal" action="{% url 'settings' %}" method="post" enctype="multipart/form-data" name="avatarForm">
       {% csrf_token %}
       <div class="form-group">

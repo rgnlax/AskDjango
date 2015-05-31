@@ -3,6 +3,22 @@ from django import forms
 from django.contrib import auth
 from models import CustomUser
 
+class LoginForm(forms.Form):
+    login = forms.CharField(max_length=30)
+    password = forms.CharField(max_length=30)
+    def login_user(self, request):
+        if self.is_valid():
+            user = auth.authenticate(username=self.cleaned_data.get('login'), password=self.cleaned_data.get('password'))
+            if user is not None:
+                if user.is_active:
+                    auth.login(request, user)
+                    return True
+                else:
+                    self.add_error(None, 'Ваш аккаунт заблокирован')
+            else:
+                self.add_error(None, 'Ошибка логина/пароля. Вам в доступе отказано!')
+        return False
+
 class RegisterForm(forms.Form):
     login = forms.CharField(max_length=30)
     email = forms.EmailField(max_length=30)
