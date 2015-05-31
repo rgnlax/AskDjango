@@ -1,7 +1,7 @@
 {%extends "base.html"%} {%block title%}Question{%endblock%} {%block content%}
 <div class="question-container">
   <div class="col-xs-2 qst-left">
-    <img src="{{question.author.avatar}}" class="img-circle img-full">
+    <img src="{{question.author.avatar.url}}" class="img-circle img-full">
     <button type="submit" class="btn rating-btn">
       <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
     </button>
@@ -30,7 +30,7 @@
 {%for answer in answer_list%}
 <div class="answers-container">
   <div class="qst-left">
-    <img class="img-circle img-min" src="{{answer.author.avatar}}"></img>
+    <img class="img-circle img-min" src="{{answer.author.avatar.url}}"></img>
     <button type="submit" class="btn rating-btn">
       <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
     </button>
