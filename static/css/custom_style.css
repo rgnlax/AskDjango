@@ -390,7 +390,7 @@ a.tag {
 .bottom-offset {
   margin-bottom: 20px;
 }
-#inputText {
+#id_content {
   margin-left: 15px;
   max-width: 71%;
 }
@@ -430,10 +430,17 @@ a.tag {
   color: #222;
 }
 .avatar {
+  margin-top: 10px;
   margin-left: -15px;
   margin-bottom: 5px;
   height: 270px;
   width: 270px;
   background-color: white;
-  border: 1px #222 solid;
+  border: 1px #888 solid;
+  border-radius: 5px;
+}
+.settings-container {
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

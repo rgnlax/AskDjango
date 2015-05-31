@@ -3,9 +3,10 @@ from ask.models import Question, Answer, Tag, Like, CustomUser
 from django.http import Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login as djangoLogin, logout as djangoLogout
-from ask.forms import RegisterForm, MainSettingsForm, PswSettingsForm, AvatarSettingsForm, LoginForm
+from ask.forms import RegisterForm, MainSettingsForm, PswSettingsForm, AvatarSettingsForm, LoginForm, QuestionForm, AnswerForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 
@@ -45,12 +46,26 @@ def index(request, order=None):
 
 def question(request, question_id):
 	try:
-		question = Question.objects.get(pk=question_id)
+		question_ = Question.objects.get(pk=question_id)
 	except ObjectDoesNotExist:
 		raise Http404
 
+	user = getAuthenticatedUser(request)
+
+	if user:
+		if request.method == 'POST':
+			form = AnswerForm(request.POST)
+			if form.is_valid():
+				answ = Answer.objects.create(
+					author=user, 
+					content=form.cleaned_data.get('content'), 
+					created=datetime.now(), 
+					question=question_ 
+					)
+				answ.save()
+
 	answers_on_page = 10
-	answers = question.answer_set.order_by('-rating', '-created')
+	answers = question_.answer_set.order_by('-rating', '-created')
 
 	page = request.GET.get('page')
 	paginator = Paginator(answers, answers_on_page)
@@ -62,9 +77,8 @@ def question(request, question_id):
 	except EmptyPage:
 		answer_list = paginator.page(paginator.num_pages)
 
-	context = {}
-	context.update({'user':getAuthenticatedUser(request)})
-	context.update( { 'question': question} )
+	context = {'user':user}
+	context.update( { 'question': question_} )
 	context.update( { 'answer_list': answer_list } )
 
 	response = render(request, 'question.html', context)
@@ -104,13 +118,35 @@ def register(request):
 	context.update({'user':user, 'form':form})
 	return render(request, 'register.html', context)
 
+@login_required(login_url='/login/')
 def ask(request):
-	#try:
-	context.update({'user':getAuthenticatedUser(request)})
-	response = render(request, 'ask.html')
-	#except Exception, e:
-	#	raise Http404
-	return response
+	user = getAuthenticatedUser(request)
+	context = {'user':user}
+	form = QuestionForm()
+	if request.method == 'POST':
+		form = QuestionForm(request.POST)
+		if form.is_valid():
+			question = Question.objects.create(
+				author=user, 
+				title=form.cleaned_data.get('title'), 
+				content=form.cleaned_data.get('content'), 
+				created=datetime.now()
+				)
+			tags = form.cleaned_data.get('tags').split(',')
+			for tag in tags:
+				try:
+					if ' ' in tag:
+						tag = tag.replace(' ', '_')
+					t = Tag.objects.get(title=tag)
+				except Tag.DoesNotExist:
+					t = Tag.objects.create(title=tag)
+					t.save()
+				question.tags.add(t)
+			question.save()
+			return HttpResponseRedirect('/question/' + str(question.id))
+	context.update({'form':form})
+	return render(request, 'ask.html', context)
+
 
 def getAuthenticatedUser(request):
 	if request.user.is_authenticated():

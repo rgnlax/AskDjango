@@ -94,3 +94,12 @@ class PswSettingsForm(forms.Form):
 
 class AvatarSettingsForm(forms.Form):
     avatar = forms.ImageField()
+
+class AnswerForm(forms.Form):
+    content = forms.CharField()
+
+class QuestionForm(forms.Form):
+    title = forms.CharField(max_length=200)
+    content = forms.CharField()
+    tags = forms.CharField(max_length=62)
+        
