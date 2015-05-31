@@ -119,7 +119,7 @@ def register(request):
 			HttpResponseRedirect('/')
 
 	user = getAuthenticatedUser(request)
-	context.update({'User':user, 'form':form})
+	context.update({'user':user, 'form':form})
 	return render(request, 'register.html', context)
 
 def ask(request):
@@ -188,6 +188,6 @@ def settings(request):
         pswForm = PswSettingsForm()
         avatarForm = AvatarSettingsForm()
 
-    context = {'User':User, 'mainForm':mainForm, 'pswForm':pswForm, 'avatarForm':avatarForm, 'login':login, 'email':email, 'nickName':nickName}
+    context = {'user':User, 'mainForm':mainForm, 'pswForm':pswForm, 'avatarForm':avatarForm, 'login':login, 'email':email, 'nickName':nickName}
     return render(request, 'settings.html', context)
 

@@ -429,3 +429,11 @@ a.tag {
   font-size: 30px;
   color: #222;
 }
+.avatar {
+  margin-left: -15px;
+  margin-bottom: 5px;
+  height: 270px;
+  width: 270px;
+  background-color: white;
+  border: 1px #222 solid;
+}
