@@ -31,11 +31,11 @@
 <div class="answers-container">
   <div class="qst-left">
     <img class="img-circle img-min" src="{{answer.author.avatar.url}}"></img>
-    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, 1, 'answer')">
+    <button type="submit" class="btn rating-btn" onclick="like({{answer.id}}, 1, 'answer')">
       <img src="http://104.236.223.159/static/img/up.png" class="rating-img">
     </button>
     <div class="rating-label" id="like{{answer.id}}">{{answer.rating}}</div>
-    <button type="submit" class="btn rating-btn" onclick="like({{question.id}}, -1, 'answer')">
+    <button type="submit" class="btn rating-btn" onclick="like({{answer.id}}, -1, 'answer')">
       <img src="http://104.236.223.159/static/img/down.png" class="rating-img">
     </button>
   </div>
@@ -43,9 +43,9 @@
     <div class="answer-title-container">
       <div class="title-text">{{answer.content}}</div>
     </div>
-    <div class="checkbox question-inner-container {% if User != Question.author %} disabled {% endif %}">
+    <div class="checkbox question-inner-container">
       <label>
-        <input type="checkbox" id="correct{{answer.id}}" {% if answer.correct %} checked {% endif %} {% if user != Question.author %} disabled {% endif%} onclick="setCorrect({{ answer.id }})">Correct!
+        <input type="checkbox" id="correct{{answer.id}}" {% if answer.correct %} checked {% endif %} {% if user != question.author %} disabled {% endif%} onclick="setCorrect({{ answer.id }})">Correct!
       </label>
     </div>
     <div class="date-container date-full">
